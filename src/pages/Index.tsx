@@ -1,11 +1,47 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
+import DashboardContent from "@/components/DashboardContent";
+import DiseaseDetection from "@/components/pages/DiseaseDetection";
+import SoilAnalysis from "@/components/pages/SoilAnalysis";
+import MedicineGuide from "@/components/pages/MedicineGuide";
+import PreventionGuide from "@/components/pages/PreventionGuide";
+import MarketAccess from "@/components/pages/MarketAccess";
 
 const Index = () => {
+  const [activeSection, setActiveSection] = useState("dashboard");
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "dashboard":
+        return <DashboardContent onSectionChange={setActiveSection} />;
+      case "disease":
+        return <DiseaseDetection />;
+      case "soil":
+        return <SoilAnalysis />;
+      case "medicine":
+        return <MedicineGuide />;
+      case "prevention":
+        return <PreventionGuide />;
+      case "market":
+        return <MarketAccess />;
+      default:
+        return <DashboardContent onSectionChange={setActiveSection} />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-background leaf-pattern">
+      <div className="flex min-h-screen">
+        <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+        
+        <div className="flex-1 flex flex-col min-w-0">
+          <Header />
+          
+          <main className="flex-1 p-4 md:p-6 lg:p-8 overflow-auto">
+            {renderContent()}
+          </main>
+        </div>
       </div>
     </div>
   );
